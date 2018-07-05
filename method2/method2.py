@@ -7,20 +7,20 @@ import re
 import time, datetime
 
 
-
+# cplex的模型构造
 def populatebyrow(prob, tot, passenger_num, arrive_time, distance):
-    I = range(0, tot + 1)
-    K = range(0, tot)
-    SI = range(1, tot + 1)
-    LL = 10000
-    prob.objective.set_sense(prob.objective.sense.minimize)
-    arch = [[0] * (tot + 1) for i in range(tot + 1)]
+    I = range(0, tot + 1)  # 包括机场的订单目的地的集合
+    K = range(0, tot)  # 车辆集合
+    SI = range(1, tot + 1)  # 不包含机场的订单目的地集合
+    LL = 10000  # 一个很大的数
+    prob.objective.set_sense(prob.objective.sense.minimize)  # 设置模型求解目标为最小化
+    arch = [[0] * (tot + 1) for i in range(tot + 1)]  # 用来记录可行路径的数组
     for i in range(tot + 1):
         for j in range(tot + 1):
             if (abs(arrive_time[i] - arrive_time[j]) <= 30 and i != j) or i == 0 or j == 0:
-                arch[i][j] = 1
+                arch[i][j] = 1  # 如果到达时间差距在30min内，路径可行（本程序中没有考虑绕路距离约束的预处理）
     x = [[[0] * tot for i in range(tot + 1)] for j in range(tot + 1)]
-    my_colnames = []
+    my_colnames = []  #
     for i in range(tot + 1):
         for j in range(tot + 1):
             for k in range(tot):
