@@ -1,5 +1,6 @@
 #  coding:utf-8
-#  匹配方法：当坐满或者等待时间到达上限时发出
+
+#  用来计算实际总行驶距离
 import cplex
 from cplex.exceptions import CplexError
 import re
@@ -252,7 +253,9 @@ def get_part_info(cust_list, dist_array, id_list):
 
 global tot_value
 
-outfile='./method1/tot_dist.txt'
+
+# 注意：这个程序没有自动在四个方法之间切换，需要手动修改method
+outfile='./method1/tot_dist.txt'  # 输出文件位置
 open(outfile,'w').close()
 if __name__ == "__main__":
     for day in range(20,28):
